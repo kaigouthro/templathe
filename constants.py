@@ -1,0 +1,12 @@
+
+SETTINGS     = "settings"
+CONTEXT      = "context"
+SYSTEM_BASIS = "system_basis"
+INSTRUCTIONS = "instructions"
+TEMPLATES    = "templates"
+STATS        = "statistics"
+NEWLINE      = "\n\n"
+PRESETS      = "presets"
+PROFILES     = "profiles"
+SKILLS       = "skills"
+CONFIG       = "config"
