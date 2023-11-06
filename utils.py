@@ -7,13 +7,12 @@ import streamlit as st
 
 def is_api_key_valid(key, state : SessionStateProxy):
     try:
-        response = openai.ChatCompletion.create(
+        if response := openai.ChatCompletion.create(
             engine="gpt-3.5-turbo",
             messages=[{"role": "user", "content": "This is a test."}],
             max_tokens=10,
             api_key=key,
-        )
-        if response:
+        ):
             return True
     except Exception:
         st.error('Invvalid key')

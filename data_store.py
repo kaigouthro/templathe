@@ -21,9 +21,7 @@ class ItemsDatabase:
     def set(self, tool_name, data_type, data_value):
         # Check if the item already exists for the specified tool
         self.c.execute("SELECT tool_name FROM items WHERE tool_name = ?", (tool_name,))
-        existing_item = self.c.fetchone()
-
-        if existing_item:
+        if existing_item := self.c.fetchone():
             # Update the existing item
             self.c.execute(
                 "UPDATE items SET data_type = ?, data_value = ? WHERE tool_name = ?",
