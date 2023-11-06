@@ -21,9 +21,7 @@ class ItemsDatabase:
     def set(self, tool_name, data_type, data_value):
         # Check if the item already exists for the specified tool
         self.c.execute("SELECT tool_name FROM items WHERE tool_name = ?", (tool_name,))
-        existing_item = self.c.fetchone()
-
-        if existing_item:
+        if existing_item := self.c.fetchone():
             # Update the existing item
             self.c.execute(
                 "UPDATE items SET data_type = ?, data_value = ? WHERE tool_name = ?",
@@ -55,54 +53,3 @@ class ItemsDatabase:
         # Close the connection to the database
         self.conn.close()
 
-
-
-import json
-import os
-import streamlit as st
-
-
-class DataStorage:
-    def __init__(self, root_folder):
-        self.root = root_folder
-        os.makedirs(self.root, exist_ok=True)
-        st.session_state["root_folder"] = self.root
-
-    def save_setting(self, setting: str):
-        filename = os.path.join(self.root, f"{setting}.json")
-        with open(filename, "w", encoding="utf-8") as json_file:
-            json.dump(st.session_state[f"{setting}"], json_file)
-
-    def load_setting(self, setting: str):
-        filename = os.path.join(self.root, f"{setting}.json")
-        if os.path.exists(filename):
-            with open(filename, "r", encoding="utf-8") as json_file:
-                content = json.load(json_file)
-                st.session_state[f"{setting}"] = content
-                return content
-        else:
-            with open(filename, "w", encoding="utf-8") as json_file:
-                new_setting = (
-                    {}
-                    if setting not in st.session_state
-                    else st.session_state[f"{setting}"]
-                )
-                json.dump(new_setting, json_file)
-
-    def access_setting(self, setting, do_save: bool = True):
-        if do_save:
-            self.save_setting(setting)
-        else:
-            self.load_setting(setting)
-
-    def load_list(self, settings: list):
-        if settings is None:
-            settings = []
-        prog = st.progress(len(settings), "Loading Settings")
-        with prog:
-            for set in settings:
-                try:
-                    self.load_setting(set)
-                except Exception:
-                    pass
-                prog.progress(settings.index(set) / len(settings))
