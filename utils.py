@@ -7,13 +7,12 @@ import streamlit as st
 
 def is_api_key_valid(key, state : SessionStateProxy):
     try:
-        response = openai.ChatCompletion.create(
+        if response := openai.ChatCompletion.create(
             engine="gpt-3.5-turbo",
             messages=[{"role": "user", "content": "This is a test."}],
             max_tokens=10,
             api_key=key,
-        )
-        if response:
+        ):
             return True
     except Exception:
         st.error('Invvalid key')
@@ -26,11 +25,10 @@ def tikinstaller(state: SessionStateProxy):
     state.encodings.reverse()
 
 
-def create_state(state: SessionStateProxy, name, default=None):
+def set_to_state(state: SessionStateProxy, name, default=None):
     if name not in state:
         state[name] = default
         return
-
 
 
 def get_api_key(state : SessionStateProxy):
@@ -51,7 +49,7 @@ def get_models(state : SessionStateProxy):
     m = [m["id"] for m in resp.data]  # type: ignore
     model_ids = [model for model in m if "gpt" in model]
     model_ids.sort()
-    create_state(state, "models", model_ids)
+    set_to_state(state, "models", model_ids)
     return
 
 
