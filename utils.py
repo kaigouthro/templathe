@@ -26,11 +26,10 @@ def tikinstaller(state: SessionStateProxy):
     state.encodings.reverse()
 
 
-def create_state(state: SessionStateProxy, name, default=None):
+def set_to_state(state: SessionStateProxy, name, default=None):
     if name not in state:
         state[name] = default
         return
-
 
 
 def get_api_key(state : SessionStateProxy):
@@ -51,7 +50,7 @@ def get_models(state : SessionStateProxy):
     m = [m["id"] for m in resp.data]  # type: ignore
     model_ids = [model for model in m if "gpt" in model]
     model_ids.sort()
-    create_state(state, "models", model_ids)
+    set_to_state(state, "models", model_ids)
     return
 
 

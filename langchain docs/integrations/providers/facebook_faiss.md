@@ -1,0 +1,36 @@
+# Facebook Faiss
+
+[Facebook AI Similarity Search (Faiss)](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/)
+is a library for efficient similarity search and clustering of dense vectors. It contains algorithms that
+search in sets of vectors of any size, up to ones that possibly do not fit in RAM. It also contains supporting
+code for evaluation and parameter tuning.
+
+[Faiss documentation](https://faiss.ai/).
+
+## Installation and Setup[​](#installation-and-setup "Direct link to Installation and Setup")
+
+We need to install `faiss` python package.
+
+```bash
+pip install faiss-gpu # For CUDA 7.5+ supported GPU's.  
+
+```
+
+OR
+
+```bash
+pip install faiss-cpu # For CPU Installation  
+
+```
+
+## Vector Store[​](#vector-store "Direct link to Vector Store")
+
+See a [usage example](/docs/integrations/vectorstores/faiss).
+
+```python
+from langchain.vectorstores import FAISS  
+
+```
+
+- [Installation and Setup](#installation-and-setup)
+- [Vector Store](#vector-store)
