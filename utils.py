@@ -5,7 +5,7 @@ from  streamlit.runtime.state.session_state_proxy import SessionStateProxy
 import streamlit as st
 
 
-def is_api_key_valid(key, state : SessionStateProxy):
+def validate_api_key(key, state : SessionStateProxy):
     try:
         if response := openai.ChatCompletion.create(
             engine="gpt-3.5-turbo",
