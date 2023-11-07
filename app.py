@@ -14,9 +14,12 @@ from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
 from langchain.tools.render import format_tool_to_openai_function
 from langchain import hub
 
-STATE  = PersistentState(SessionStateProxy, os.path.join(os.getcwd(),'session_state.pkl')).session_state_proxy()
+TEMPERATURE = 0
+SESSION_STATE_PATH = os.path.join(os.getcwd(),'session_state.pkl')
 
-llm = OpenAI(temperature=0)
+STATE  = PersistentState(SessionStateProxy, SESSION_STATE_PATH).session_state_proxy()
+
+llm = OpenAI(temperature=TEMPERATURE)
 tools = []  # Add tools as needed
 llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
 agent = {
