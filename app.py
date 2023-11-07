@@ -20,8 +20,8 @@ llm = OpenAI(temperature=0)
 tools = []  # Add tools as needed
 llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
 agent = {
-  "input": lambda x: x["input"],
-  "agent_scratchpad": lambda x: format_to_openai_functions(x['intermediate_steps']),
+    "input": lambda x: x["input"],
+    "agent_scratchpad": lambda x: format_to_openai_functions(x['intermediate_steps']),
 }
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
@@ -79,9 +79,7 @@ class StateInitializer:
             st.sidebar.text_input("Please enter OpenAI Key",key = 'api_key')
             st.stop()
 
-
 StateInitializer(STATE)
-
 
 class Handle:
     """Handle class for a langchain tool usable by a GPT-chat agent"""
@@ -89,6 +87,6 @@ class Handle:
     def __init__(self, name: str, description: str, tool = None, template = None):
         self.name        : str = name
         self.description : str = description
-        self.template          = template
-        self.tool              = tool
+        self.template    = template
+        self.tool        = tool
         self.input       : str = ""
