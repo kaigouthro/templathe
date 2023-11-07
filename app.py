@@ -17,31 +17,12 @@ from langchain import hub
 STATE  = PersistentState(SessionStateProxy, os.path.join(os.getcwd(),'session_state.pkl')).session_state_proxy()
 
 llm = OpenAI(temperature=0)
-tools = []  # Add tools as needed
-llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
-agent = {
-  "input": lambda x: x["input"],
-  "agent_scratchpad": lambda x: format_to_openai_functions(x['intermediate_steps']),
-}
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
-
-def read_file(file_path):
-    with open(file_path, 'r') as file:
-        return file.read()
-
-def write_file(file_path, content):
-    with open(file_path, 'w') as file:
-        file.write(content)
-
-def execute_task(task):
-    # Implement task execution logic here
-    pass
-
-def manage_tasks(tasks):
-    # Implement task management logic here
-    pass
-
-def create_prompt_template(template):
+from language_chain import llm, agent_executor, StateInitializer, Handle
+from file_manager import read_file, write_file
+from task_manager import execute_task, manage_tasks
+from template_creator import create_prompt_template
+from lemon_ai import integrate_with_lemon_ai
+from openai_functions import use_openai_functions
     # Implement prompt template creation logic here
     pass
 
