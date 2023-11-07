@@ -16,8 +16,8 @@ from langchain import hub
 
 STATE  = PersistentState(SessionStateProxy, os.path.join(os.getcwd(),'session_state.pkl')).session_state_proxy()
 
-llm = OpenAI(temperature=0)
-tools = []  # Add tools as needed
+openai_model = OpenAI(temperature=0)
+openai_tools = []  # Add tools as needed
 llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
 agent = {
   "input": lambda x: x["input"],
@@ -45,11 +45,11 @@ def create_prompt_template(template):
     # Implement prompt template creation logic here
     pass
 
-def integrate_with_lemon_ai():
+def integrate_with_lemon_ai_service():
     # Implement Lemon AI integration logic here
     pass
 
-def use_openai_functions():
+def use_openai_function_endpoints():
     # Implement OpenAI's function calling endpoints logic here
     pass
 
@@ -77,12 +77,31 @@ class StateInitializer:
 
         if is_api_key_valid(state.api_key, state) is not True:
             st.sidebar.text_input("Please enter OpenAI Key",key = 'api_key')
-            st.stop()
-
-
-StateInitializer(STATE)
-
-
+            tools = []  # Add tools as needed
+            openai_model_with_tools = openai_model.bind(functions=[format_tool_to_openai_function(t) for t in openai_tools])
+            openai_agent = {
+              "input": lambda x: x["input"],
+              "agent_scratchpad": lambda x: format_to_openai_functions(x['intermediate_steps']),
+            }
+            openai_agent_executor = AgentExecutor(agent=openai_agent, tools=openai_tools, verbose=True)
+            
+            def read_file_content(file_path):
+                with open(file_path, 'r') as file:
+                    return file.read()
+            
+            def write_content_to_file(file_path, content):
+                with open(file_path, 'w') as file:
+                    file.write(content)
+            
+            def execute_openai_task(task):
+                # Implement task execution logic here
+                pass
+            
+            def manage_openai_tasks(tasks):
+                # Implement task management logic here
+                pass
+            
+            def create_openai_prompt_template(template):
 class Handle:
     """Handle class for a langchain tool usable by a GPT-chat agent"""
 
